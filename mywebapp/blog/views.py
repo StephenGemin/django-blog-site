@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.generic import (
     ListView,
     DetailView,
@@ -34,7 +34,7 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ("title", "content")
-    # template_name = blog/post_form.html <app>/<model>_form.html
+    template_name = "blog/post_form_new.html"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -44,7 +44,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ("title", "content")
-    # template_name = blog/post_form.html <app>/<model>_form.html
+    template_name = "blog/post_form_update.html"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -55,6 +55,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
+
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post

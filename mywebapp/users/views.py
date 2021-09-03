@@ -1,8 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.views.generic import DetailView, TemplateView, UpdateView
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import Profile
 
 
 def register(request):
@@ -40,3 +44,25 @@ def profile(request):
 
     context = {"u_form": u_form, "p_form": p_form}
     return render(request, "users/profile.html", context=context)
+
+
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    model = Profile
+    template_name = "users/profile.html"
+
+
+class UserLoginAndSecurityView(LoginRequiredMixin, TemplateView):
+    template_name = "users/profile_login_security.html"
+
+
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = "users/profile_update_form.html"
+    model = Profile
+    fields = ("hobbies", "image")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(
+            self.request, f"Your profile information was successfully updated"
+        )
+        return super().form_valid(form)

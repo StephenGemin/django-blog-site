@@ -6,24 +6,23 @@
       <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
       <div class="media-body">
         <h2 class="account-heading">{{ user.username }}</h2>
-        <p class="text-secondary">{{ user.email }}</p>
+        <p class="text-secondary">Name: {{ user.first_name }} {{  user.last_name }}</p>
+        <p class="text-secondary">Email: {{ user.email }}</p>
+        <p class="text-secondary">User Since: {{ user.date_joined|date:'F d, Y' }}</p>
       </div>
     </div>
-      <!--
-        enctype is important to make sure the profile picture gets updated
-        If this isn't included, it will look like things are working, but they
-        really are not.  It's very difficult to debug
-      -->
-      <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form-group">
-          <legend class="border-bottom mb-4">Profile Info</legend>
-          {{ u_form|crispy }}
-          {{ p_form|crispy }}
-        </fieldset>
-        <div class="form-group">
-          <button class="btn btn-outline-info" type="submit">Update</button>
-        </div>
-      </form>
   </div>
+  <div class="content-section">
+    <h3 class="article-title">Hobbies</h3>
+    <p class="article-content ml-3"> {{ user.profile.hobbies }}</p>
+  </div>
+  <div class="content-section">
+    <div>
+      <a href="{% url 'user-update-login-credentials' %}">Login &amp; security</a>
+    </div>
+    <div>
+      <a href="{% url 'user-update-profile' user.profile.id %}">Update Profile</a>
+    </div>
+  </div>
+
 {% endblock content%}

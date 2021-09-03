@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+{% block content %}
+  <div class="content-section">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <div>Username:
+          <a class="btn btn-outline-secondary" href="#">Edit</a>
+        </div>
+        <div>{{ user.username }}</div>
+      </li>
+      <li class="list-group-item">
+        <div>Email:
+          <a class="btn btn-outline-secondary" href="#">Edit</a>
+        </div>
+        <div>{{ user.email }}</div>
+      </li>
+      <li class="list-group-item">
+        <div>Password:
+          <a class="btn btn-outline-secondary" href="#">Edit</a>
+        </div>
+        <div>********</div>
+      </li>
+    </ul>
+  </div>
+{% endblock content%}

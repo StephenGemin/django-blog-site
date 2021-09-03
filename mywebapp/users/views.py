@@ -1,11 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.views import View
-from django.views.generic import DetailView, TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView
 
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm
 from .models import Profile
 
 
@@ -24,28 +22,27 @@ def register(request):
     return render(request, "users/register.html", context={"form": form})
 
 
-@login_required
-def profile(request):
-    if request.method == "POST":
-        u_form = UserUpdateForm(data=request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(
-            data=request.POST, files=request.FILES, instance=request.user.profile
-        )
-        if u_form.is_valid() and p_form.is_valid():
-            u_form.save()
-            p_form.save()
-            messages.success(
-                request, f"Your profile information was successfully updated"
-            )
-            return redirect("user-profile")
-    else:
-        u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.profile)
-
-    context = {"u_form": u_form, "p_form": p_form}
-    return render(request, "users/profile.html", context=context)
-
-
+# Function view approach for the class below.
+# @login_required
+# def profile(request):
+#     if request.method == "POST":
+#         u_form = UserUpdateForm(data=request.POST, instance=request.user)
+#         p_form = ProfileUpdateForm(
+#             data=request.POST, files=request.FILES, instance=request.user.profile
+#         )
+#         if u_form.is_valid() and p_form.is_valid():
+#             u_form.save()
+#             p_form.save()
+#             messages.success(
+#                 request, f"Your profile information was successfully updated"
+#             )
+#             return redirect("user-profile")
+#     else:
+#         u_form = UserUpdateForm(instance=request.user)
+#         p_form = ProfileUpdateForm(instance=request.user.profile)
+#
+#     context = {"u_form": u_form, "p_form": p_form}
+#     return render(request, "users/profile.html", context=context)
 class UserProfileView(LoginRequiredMixin, TemplateView):
     model = Profile
     template_name = "users/profile.html"

@@ -11,12 +11,10 @@ from django.views.generic import (
 from .models import Post
 
 
-def home(request):
-    context = {"posts": Post.objects.all()}
-    return render(request, "blog/home.html", context=context)
-
-
-# this replaces the function view approach above
+# function based view of the class below
+# def home(request):
+#     context = {"posts": Post.objects.all()}
+#     return render(request, "blog/home.html", context=context)
 class PostListView(ListView):
     model = Post
     template_name = "blog/home.html"  # Django default: <app>/<model>_<viewtype>.html

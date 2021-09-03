@@ -66,3 +66,6 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
             self.request, f"Your profile information was successfully updated"
         )
         return super().form_valid(form)
+
+    def get_object(self):
+        return Profile.objects.get(pk=self.request.user.profile.id)

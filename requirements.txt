@@ -1,5 +1,6 @@
 django
 django-crispy-forms
 django-cleanup
+django-taggit
 django-extensions
 Pillow

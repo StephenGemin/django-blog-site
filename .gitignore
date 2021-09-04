@@ -143,4 +143,4 @@ cython_debug/
 **/.idea/**
 
 # internal website stuff
-mywebapp/media/profile_pics/
+zblog/media/profile_pics/

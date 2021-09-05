@@ -1,37 +1,48 @@
-from setuptools import setup
+from pathlib import Path
+from setuptools import setup, find_packages
 
+_here = Path(__file__).resolve().parent
 # read the contents of README file
-from os import path
-current_dir = path.abspath(path.dirname(__file__))
-# with open(path.join(current_dir, 'README.md'), encoding='utf-8') as f:
+# with open(_here.joinpath('README.md'), "r", encoding='utf-8') as f:
 #     long_desc = f.read()
 long_desc = ""
+
+
+with open(_here.joinpath("requirements.txt"), "r", encoding="utf-8") as f:
+    all_reqs = [
+        x
+        for x in f.read().split("\n")
+        if x.strip() and not x.startswith("#") and not x.startswith("-")
+    ]
+
+install_requires = [x.strip() for x in all_reqs if "git+" not in x]
+dependency_links = [
+    x.strip().replace("git+", "") for x in all_reqs if x.startswith("git+")
+]
+
 setup(
-  name='django-blog-site',
-  packages=[''],
-  version='0.0.1',
-  license='MIT License',
-  description='Blog website using Django framework',
-  long_description=long_desc,
-  long_description_content_type='text/markdown',
-  author='Stephen Gemin',
-  author_email='s.gemin88@gmail.com',
-  url='https://github.com/StephenGemin/django-blog-site',
-  download_url='https://github.com/StephenGemin/django-blog-site/',
-  extras_require={
-          'dev': [
-              'pytest',
-              'pytest-pep8',
-              'pytest-cov'
-          ]
-  },
-  keywords=["django", "blog", "website"],
-  classifiers=[
-    'Development Status :: 3 - Alpha',
-    'Intended Audience :: Developers',
-    'Topic :: Software Development :: Debuggers',
-    'License :: OSI Approved :: MIT License',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
-  ],
+    name="django-blog-site",
+    version="0.0.1",
+    description="Blog website using Django framework",
+    python_requires=">=3.8",
+    install_requires=install_requires,
+    dependency_links=dependency_links,
+    packages=find_packages(),
+    license="MIT License",
+    long_description=long_desc,
+    long_description_content_type="text/markdown",
+    author="Stephen Gemin",
+    author_email="s.gemin88@gmail.com",
+    url="https://github.com/StephenGemin/django-blog-site",
+    download_url="https://github.com/StephenGemin/django-blog-site/",
+    extras_require={"dev": ["pytest", "pytest-pep8", "pytest-cov", "tox"]},
+    keywords=["django", "blog", "website"],
+    classifiers=[
+        "Development Status :: 2 - Pre-Alpha",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: Debuggers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+    ],
 )

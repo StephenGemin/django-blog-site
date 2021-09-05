@@ -50,6 +50,14 @@ class UserLoginAndSecurityView(LoginRequiredMixin, TemplateView):
     template_name = "users/profile_login_security.html"
 
 
+class ChangeEmailView:
+    pass
+
+
+class ChangeUsernameView:
+    pass
+
+
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "users/profile_update_form.html"
     model = Profile

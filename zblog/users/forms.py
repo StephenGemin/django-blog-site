@@ -5,14 +5,12 @@ from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
-    first_name = forms.CharField()
-    last_name = forms.CharField()
 
     class Meta:
         model = User
         fields = ['username', 'email']
 
-# Used in the function view approach.  This is how you could define your own cutom forms
+# Used in the function view approach. Defines your own custom forms
 # class UserUpdateForm(forms.ModelForm):
 #     email = forms.EmailField()
 #

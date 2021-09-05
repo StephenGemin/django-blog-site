@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
 
@@ -25,16 +24,6 @@ urlpatterns = [
     # used in functional views
     # path("register/", user_views.register, name="user-register"),
     # path("profile/", user_views.profile, name="user-profile"),
-    path("login/", auth_views.LoginView.as_view(), name="user-login"),
-    path("logout/", auth_views.LogoutView.as_view(), name="user-logout"),
-    path("password_reset/", auth_views.PasswordResetView.as_view(),
-         name="password_reset"),
-    path("password_reset/done/", auth_views.PasswordResetDoneView.as_view(),
-         name="password_reset_done"),
-    path("password_reset_confirm/<uidb64>/<token>", auth_views.PasswordResetConfirmView.as_view(),
-         name="password_reset_confirm"),
-    path("password_reset_complete/", auth_views.PasswordResetCompleteView.as_view(),
-         name="password_reset_complete"),
     path("", include("blog.urls")),
     path("", include("users.urls"))
 ]

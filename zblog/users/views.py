@@ -1,25 +1,23 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import TemplateView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, UpdateView, FormView
 
 from .forms import UserRegisterForm
 from .models import Profile
 
 
-def register(request):
-    if request.method == "POST":
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            messages.success(
-                request, f"Your account has been created. You are now able to log in"
-            )
-            return redirect("user-login")
-    else:
-        form = UserRegisterForm()
-    return render(request, "users/register.html", context={"form": form})
+class UserRegisterView(FormView):
+    template_name = "registration/user_register_form.html"
+    success_url = reverse_lazy("user-login")
+    form_class = UserRegisterForm
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(
+            self.request, f"Your account has been created. You are now able to log in"
+        )
+        return super().form_valid(form)
 
 
 # Function view approach for the class below.
